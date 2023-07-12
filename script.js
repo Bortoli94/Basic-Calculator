@@ -1,8 +1,10 @@
 let runningTotal = 0;
 let buffer = "0";
 let previousOperator;
+let history = "0";
 
 const screen = document.querySelector(".screen");
+const screenHistory = document.querySelector(".history");
 
 function buttonClick(value) {
   if (isNaN(value)) {
@@ -11,6 +13,7 @@ function buttonClick(value) {
     handleNumber(value);
   }
   screen.innerText = buffer;
+  screenHistory.innerText = history;
 }
 
 function handleSymbol(symbol) {
@@ -18,6 +21,7 @@ function handleSymbol(symbol) {
     case "C":
       buffer = "0";
       runningTotal = 0;
+      history = 0;
       break;
     case "=":
       if (previousOperator == null) {
@@ -26,6 +30,7 @@ function handleSymbol(symbol) {
       flushOperation(parseInt(buffer));
       previousOperator = null;
       buffer = runningTotal;
+      history = runningTotal;
       runningTotal = 0;
       break;
     case "←":
@@ -58,7 +63,8 @@ function handleMath(symbol){
         flushOperation(intBuffer);
     }
     previousOperator = symbol;
-    buffer = '0'
+    history = buffer + previousOperator;
+    buffer = "0";
 }
 
 function flushOperation(intBuffer){
